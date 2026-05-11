@@ -5,7 +5,6 @@ permissions:
 
 on:
   schedule:
-    # A cada 30 minutos
     - cron: "*/30 * * * *"
 
   workflow_dispatch:
@@ -30,7 +29,9 @@ jobs:
           git remote add upstream https://github.com/D4Vinci/Scrapling.git
 
       - name: Fetch upstream
-        run: git fetch upstream
+        run: |
+          git fetch upstream
+          git fetch origin
 
       - name: Sync main
         run: |
@@ -40,6 +41,6 @@ jobs:
 
       - name: Sync dev
         run: |
-          git checkout dev
+          git checkout -B dev origin/dev
           git merge upstream/dev --no-edit
           git push origin dev
