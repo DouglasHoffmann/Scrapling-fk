@@ -38,10 +38,26 @@ jobs:
         run: |
           git checkout main
           git merge upstream/main --no-edit
+      
+          # Remove alterações vindas do upstream em workflows
+          git restore --source=HEAD~1 .github/workflows || true
+      
+          git add .github/workflows
+      
+          git diff --cached --quiet || git commit --amend --no-edit
+      
           git push origin main
 
       - name: Sync dev
         run: |
           git checkout -B dev origin/dev
           git merge upstream/dev --no-edit
+      
+          # Remove alterações vindas do upstream em workflows
+          git restore --source=HEAD~1 .github/workflows || true
+      
+          git add .github/workflows
+      
+          git diff --cached --quiet || git commit --amend --no-edit
+      
           git push origin dev
